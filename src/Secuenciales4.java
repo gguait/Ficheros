@@ -21,28 +21,38 @@ public class Secuenciales4 {
 
         Scanner teclado = new Scanner(System.in);
         //  Leer todo el archivo
-        BufferedReader br = null;
-        BufferedWriter bw = null;
+        BufferedWriter bw1 = null;
+        BufferedWriter bw2 = null;
 
         String dni = "dni.txt";
         String nif = "nif.txt";
 
         try {
-            br = new BufferedReader(new FileReader(dni));
-            bw = new BufferedWriter(new FileWriter(nif, false));
-
-            String texto = br.readLine();
+            bw1 = new BufferedWriter(new FileWriter(dni, false));
+            bw2 = new BufferedWriter(new FileWriter(nif, false));
 
             String letras = "TRWAGMYFPDXBNJZSQVHLCKE";
 
-            while (texto != null) {
-                while (texto.length() < 8) {
-                    texto = "0" + texto;
+            System.out.println("Dime un numero inicial");
+            int numInicial = teclado.nextInt();
+
+            System.out.println("Dime un numero Final");
+            int numFinal = teclado.nextInt();
+
+            String num_texto = null;
+
+            int letra_nif;
+            for (int i = numInicial; i <= numFinal; i++) {
+                num_texto = String.valueOf(i);
+                while (num_texto.length() < 8) {
+                    num_texto = "0" + num_texto;
                 }
-                int letra_nif = Integer.parseInt(texto) % 23;
-                bw.write(texto + letras.charAt(letra_nif));
-                bw.newLine();
-                texto = br.readLine();
+                bw1.write(num_texto);
+                bw1.newLine();
+                letra_nif = Integer.parseInt(num_texto) % 23;
+                bw2.write(num_texto + letras.charAt(letra_nif));
+                bw2.newLine();
+
             }
 
         } catch (FileNotFoundException e) {
@@ -52,11 +62,11 @@ public class Secuenciales4 {
             System.out.println(e.getMessage());
         } finally {
             try {
-                if (br != null) {
-                    br.close();
+                if (bw1 != null) {
+                    bw1.close();
                 }
-                if (bw != null) {
-                    bw.close();
+                if (bw2 != null) {
+                    bw2.close();
                 }
             } catch (IOException e) {
                 System.out.println("Error al cerrar el fichero");
